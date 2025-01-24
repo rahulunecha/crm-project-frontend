@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    stages {
+        stage('pull'){
+            steps {
+                git branch: 'dev', url: 'https://github.com/mayurmwagh/combine-project-frontend.git'
+            }
+        }
+        stage('build'){
+            steps {
+                sh '''
+                    npm install
+                    ng build
+                '''
+            }
+        }
+        stage('deploy'){
+            steps {
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                sh ''' 
+                    aws s3 cp --recursive dist/angular-frontend/ s3://0908-cbz-frontend-project-bux/
+                ''' 
+                }               
+            }
+
+        }
+    }
+}
+
+
+
+ 
