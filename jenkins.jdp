@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('pull'){
             steps {
-                git branch: 'dev', url: 'https://github.com/mayurmwagh/combine-project-frontend.git'
+                git branch: 'dev', url: 'https://github.com/rahulunecha/crm-project-frontend.git'
             }
         }
         stage('build'){
@@ -18,7 +18,7 @@ pipeline {
             steps {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                 sh ''' 
-                    aws s3 cp --recursive dist/angular-frontend/ s3://0908-cbz-frontend-project-bux/
+                    aws s3 cp --recursive dist/angular-frontend/ s3://cbz-frontend-project-bux08/
                 ''' 
                 }               
             }
